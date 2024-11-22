@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { Terrain } from './models/terrain';
 import { terrainService } from './services/terrainService';
 import { JsonPipe } from '@angular/common';
+import { TerrainFormComponent } from "./terrain-form/terrain-form.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, JsonPipe],
+  imports: [RouterOutlet, JsonPipe, TerrainFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -22,8 +23,8 @@ export class AppComponent {
   }
 
   loadTerrains(): void {
-    this.terrainService.getOneTerrain(3).subscribe(data => {
-      this.terrain = data;
+    this.terrainService.getTerrains().subscribe(data => {
+      this.terrains = data;
     });
   }
 }
