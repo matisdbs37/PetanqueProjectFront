@@ -1,9 +1,6 @@
+<div class="formulaire">
 <p>FORMULAIRE AJOUT TERRAIN</p>
 <form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
-  <label for="id">
-    Id :
-    <input id="id" type="number" name="id" [(ngModel)]="id" />
-  </label>
   <label for="nom">
     Nom :
     <input id="nom" type="string" name="nom" [(ngModel)]="nom" />
@@ -18,7 +15,9 @@
   </label>
   <label for="pointGeo">
     Point geo :
-    <input id="pointGeo" type="string" name="pointgeo" [(ngModel)]="pointgeo" />
+    <input id="pointGeo" type="string" name="pointGeo" [(ngModel)]="pointGeo" />
   </label>
   <button type="submit">Submit</button>
 </form>
+</div>
+{{terrains | json}}
