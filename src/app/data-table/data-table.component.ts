@@ -39,9 +39,7 @@ export class DataTableComponent {
 
   loadTerrains(): void {
     this.terrainService.getTerrains().subscribe(data => {
-      console.log(data);
       this.dataSource.data = data;
-      console.log(this.dataSource.data);
       });
 }
 }

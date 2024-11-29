@@ -18,7 +18,6 @@ export class TerrainFormComponent {
   pointGeo!: string;
 
   newTerrain: Terrain = {} as Terrain;
-  terrains: Terrain[] = [];
 
   constructor(private terrainService: terrainService) {}
 
@@ -40,12 +39,7 @@ export class TerrainFormComponent {
       this.newTerrain.pointGeo = form.value.pointGeo;
   
       this.terrainService.postTerrain(this.newTerrain).subscribe(
-        reponse => {console.log('Server response:', reponse);
-          this.terrainService.getTerrains().subscribe(data => {
-            this.terrains = data;
-            console.log('Terrains récupérés après POST:', this.terrains);
-          });
-        }
+        reponse => {console.log('Server response:', reponse);}
       )
     }
     else alert("Veuillez remplir tous les champs !")
