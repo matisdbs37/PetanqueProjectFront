@@ -10,7 +10,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, JsonPipe, TerrainComponent, DataTableComponent],
+  imports: [DataTableComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

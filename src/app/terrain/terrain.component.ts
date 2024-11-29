@@ -6,7 +6,6 @@ import { JsonPipe } from '@angular/common';
 @Component({
   selector: 'app-terrain',
   standalone: true,
-  imports: [JsonPipe],
   templateUrl: './terrain.component.html',
   styleUrl: './terrain.component.css'
 })
