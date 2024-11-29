@@ -1,1 +1,23 @@
-<p>terrain-form works!</p>
+<div class="formulaire">
+<p>FORMULAIRE AJOUT TERRAIN</p>
+<form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
+  <label for="nom">
+    Nom :
+    <input id="nom" type="string" name="nom" [(ngModel)]="nom" />
+  </label>
+  <label for="quantite">
+    Quantite :
+    <input id="quantite" type="number" name="quantite" [(ngModel)]="quantite" />
+  </label>
+  <label for="description">
+    Description :
+    <input id="description" type="string" name="description" [(ngModel)]="description" />
+  </label>
+  <label for="pointGeo">
+    Point geo :
+    <input id="pointGeo" type="string" name="pointGeo" [(ngModel)]="pointGeo" />
+  </label>
+  <button type="submit">Submit</button>
+</form>
+</div>
+{{terrains | json}}

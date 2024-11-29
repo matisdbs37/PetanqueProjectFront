@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 
 export class terrainService {
     API_URL: string = "http://localhost:8080";
-    API_ENTITY_NAME: string = "terrains";
+    API_ENTITY_NAME: string = "terrain";
 
     constructor(private readonly http: HttpClient) {}
 

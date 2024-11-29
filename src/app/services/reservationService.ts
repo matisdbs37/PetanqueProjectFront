@@ -10,7 +10,7 @@ import { catchError, Observable } from "rxjs";
 
 export class reservationService {
     API_URL: string = "http://localhost:8080/api";
-    API_ENTITY_NAME: string = "reservations";
+    API_ENTITY_NAME: string = "reservation";
 
     constructor(private readonly http: HttpClient) {}
 
