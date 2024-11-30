@@ -1,0 +1,35 @@
+<div class="formulaire">
+  <p>FORMULAIRE LOGIN</p>
+
+  <!-- Message de succès -->
+  <div *ngIf="successMessage" class="success-message">
+    <p>{{ successMessage }}</p>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <form #loginForm="ngForm" (ngSubmit)="submitForm(loginForm)" novalidate>
+    <label for="mail">
+      Mail :
+      <input id="mail" type="email" name="mail" [(ngModel)]="mail" required #mailModel="ngModel" email />
+      <div *ngIf="mailModel.invalid && mailModel.touched">
+        <small *ngIf="mailModel.errors?.['required']">Le mail est requis.</small>
+        <small *ngIf="mailModel.errors?.['email']">Le mail n'est pas valide.</small>
+      </div>
+    </label>
+
+    <label for="motDePasse">
+      Mot de passe :
+      <input id="motDePasse" type="password" name="motDePasse" [(ngModel)]="motDePasse" required #motDePasseModel="ngModel" minlength="6" />
+      <div *ngIf="motDePasseModel.invalid && motDePasseModel.touched">
+        <small *ngIf="motDePasseModel.errors?.['required']">Le mot de passe est requis.</small>
+        <small *ngIf="motDePasseModel.errors?.['minlength']">Le mot de passe doit faire au moins 6 caractères.</small>
+      </div>
+    </label>
+
+    <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+  </form>
+</div>
