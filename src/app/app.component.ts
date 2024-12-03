@@ -3,11 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import { Terrain } from './models/terrain';
 import { terrainService } from './services/terrainService';
 import { JsonPipe } from '@angular/common';
+import {MapComponent} from "./map/map.component";
+import {MarkerService} from "./map/marker.service";
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, JsonPipe],
+  imports: [RouterOutlet, JsonPipe, MapComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
