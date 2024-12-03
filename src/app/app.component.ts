@@ -12,11 +12,15 @@ import { LoginFormComponent } from "./login-form/login-form.component"
 import { HeaderComponent } from './header/header.component';
 import { filter } from 'rxjs';
 import { HeaderLoginComponent } from './header-login/header-login.component';
+import {MapComponent} from "./map/map.component";
+import {MarkerService} from "./map/marker.service";
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DataTableComponent, TerrainFormComponent, LoginFormComponent, HeaderComponent, RouterOutlet, HeaderLoginComponent, CommonModule, NgIf],
+  imports: [DataTableComponent, TerrainFormComponent, LoginFormComponent, HeaderComponent, RouterOutlet, HeaderLoginComponent, CommonModule, NgIf, JsonPipe, MapComponent],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
