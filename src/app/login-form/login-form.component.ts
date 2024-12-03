@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { loginService } from '../services/loginService';
 import { JsonPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -17,15 +18,17 @@ export class LoginFormComponent {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private loginService: loginService) {}
+  constructor(private loginService: loginService, private router: Router) {}
 
   submitForm(form: NgForm) {
     if (form.valid) {
       this.loginService.login(this.mail, this.motDePasse).subscribe({
         next: (response) => {
           if (response.status === 200) {
+            alert("Connexion réussie, bienvenue !")
             this.successMessage = 'Connexion réussie !';
             this.errorMessage = null;
+            this.router.navigate(['/datatable']);
           }
         },
         error: (error: Error) => {
