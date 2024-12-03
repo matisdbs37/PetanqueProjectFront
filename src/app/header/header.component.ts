@@ -18,6 +18,10 @@ export class HeaderComponent {
   }
 
   afficherList() {
-    this.router.navigate(['datatable']);
+    this.router.navigate(['/datatable']);
+  }
+
+  afficherMap() {
+    this.router.navigate(['/map']);
   }
 }

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { terrainService } from '../services/terrainService';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class DataTableComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-  constructor(private terrainService: terrainService) {}
+  constructor(private terrainService: terrainService, private router: Router) {}
 
 
   ngOnInit(): void {
@@ -41,5 +42,9 @@ export class DataTableComponent {
     this.terrainService.getTerrains().subscribe(data => {
       this.dataSource.data = data;
       });
-}
+  }
+
+  formTerrain() {
+    this.router.navigate(['/terrainform']);
+  }
 }

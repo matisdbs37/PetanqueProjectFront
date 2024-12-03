@@ -37,7 +37,6 @@ export class AppComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         const url = this.router.url;
-        console.log('URL actuelle:', url); // Debug
         this.showHeaderLogin = url === '/';
         this.showHeader = url !== '/';
       });

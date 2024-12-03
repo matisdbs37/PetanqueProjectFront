@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Terrain } from '../models/terrain';
 import { terrainService } from '../services/terrainService';
 import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-terrain-form',
@@ -19,7 +20,7 @@ export class TerrainFormComponent {
 
   newTerrain: Terrain = {} as Terrain;
 
-  constructor(private terrainService: terrainService) {}
+  constructor(private terrainService: terrainService, private router: Router) {}
 
   private isValidPointGeo(pointGeo: string): boolean {
     const regex = /^-?\d{1,3}(\.\d+)?\s*,\s*\d{1,3}(\.\d+)?$/;
@@ -41,6 +42,7 @@ export class TerrainFormComponent {
       this.terrainService.postTerrain(this.newTerrain).subscribe(
         reponse => {console.log('Server response:', reponse);}
       )
+      this.router.navigate(['/datatable'])
     }
     else alert("Veuillez remplir tous les champs !")
    

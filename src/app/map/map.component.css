@@ -1,17 +1,15 @@
+#map {
+  width: 100%;
+  height: 700px; /* Taille fixe ou vous pouvez ajuster selon vos besoins */
+  position: relative;
+  z-index: 1; /* S'assurer que la carte n'est pas au-dessus d'autres éléments */
+}
+
 .map-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 30px;
+  position: relative;
 }
 
 .map-frame {
-  border: 2px solid black;
-  height: 100%;
-}
-
-#map {
-  height: 100%;
+  position: relative;
+  z-index: 1;
 }
