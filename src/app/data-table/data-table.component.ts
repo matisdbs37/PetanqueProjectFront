@@ -15,10 +15,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent {
-  onDelete(_t78: any) {
-    throw new Error('Method not implemented.');
+  onDelete(element: any) {
+    if (confirm('Voulez-vous vraiment supprimer ce terrain ?')) {
+      this.terrainService.deleteTerrain(element.id).subscribe({
+        next: () => {
+          alert('Terrain supprimé avec succès');
+        },
+        
+      });
+    }
   }
-  onEdit(_t66: any) {
+  onEdit(element: any) {
+    this.router.navigate(['/terrainupdateform'], {
+      queryParams: {
+        id: element.id,
+        nom: element.nom,
+        quantite: element.quantite,
+        description: element.description,
+        pointGeo: element.pointGeo,
+      },
+    });
+  }
+  onReserve(element:any) {
     throw new Error('Method not implemented.');
   }
 

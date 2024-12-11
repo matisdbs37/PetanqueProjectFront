@@ -29,6 +29,8 @@
         <th mat-header-cell *matHeaderCellDef> pointGeo </th>
         <td mat-cell *matCellDef="let element"> {{element.pointGeo}} </td>
       </ng-container>
+
+    
       
     <!-- Nouvelle Colonne: Modifier -->
     <ng-container matColumnDef="edit">
@@ -43,6 +45,13 @@
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let element">
         <button mat-button color="warn" (click)="onDelete(element)">Supprimer</button>
+      </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="reserve">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="warn" (click)="onReserve(element)">Réserver</button>
       </td>
     </ng-container>
 

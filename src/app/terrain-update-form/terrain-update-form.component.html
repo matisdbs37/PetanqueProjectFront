@@ -1,0 +1,22 @@
+<div class="formulaire">
+  <p>FORMULAIRE MODIFICATION TERRAIN</p>
+  <form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
+    <label for="nom">
+      Nom :
+      <input id="nom" type="text" name="nom" [(ngModel)]="nom" />
+    </label>
+    <label for="quantite">
+      Quantité :
+      <input id="quantite" type="number" name="quantite" [(ngModel)]="quantite" />
+    </label>
+    <label for="description">
+      Description :
+      <input id="description" type="text" name="description" [(ngModel)]="description" />
+    </label>
+    <label for="pointGeo">
+      Point géo :
+      <input id="pointGeo" type="text" name="pointGeo" [(ngModel)]="pointGeo" />
+    </label>
+    <button type="submit">Modifier</button>
+  </form>
+</div>
