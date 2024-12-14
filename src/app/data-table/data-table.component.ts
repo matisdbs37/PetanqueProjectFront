@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { terrainService } from '../services/terrainService';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class DataTableComponent {
     if (confirm('Voulez-vous vraiment supprimer ce terrain ?')) {
       this.terrainService.deleteTerrain(element.id).subscribe({
         next: () => {
-          alert('Terrain supprimé avec succès');
+          alert('Terrain supprimé avec succès'); this.loadTerrains();
         },
         
       });
@@ -34,7 +35,7 @@ export class DataTableComponent {
         description: element.description,
         pointGeo: element.pointGeo,
       },
-    });
+    }); this.loadTerrains();
   }
   onReserve(element:any) {
     throw new Error('Method not implemented.');
@@ -49,6 +50,15 @@ export class DataTableComponent {
 
 
   ngOnInit(): void {
+    this.loadTerrains();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.loadTerrains();
+    });
+  }
+
+  ngOnChanges(): void {
     this.loadTerrains();
   }
 
