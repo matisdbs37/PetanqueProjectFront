@@ -5,12 +5,19 @@ import { terrainService } from '../services/terrainService';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Terrain } from '../models/terrain';
+import { utilisateurService } from '../services/utilisateurService';
+import { Utilisateur } from '../models/utilisateur';
+import { ReservationId } from '../models/reservationId';
+import { Reservation } from '../models/reservation';
+import { reservationService } from '../services/reservationService';
 
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
@@ -45,11 +52,14 @@ export class DataTableComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-  constructor(private terrainService: terrainService, private router: Router) {}
+  constructor(private terrainService: terrainService, private utilisateurService: utilisateurService, private resService: reservationService, private router: Router) {}
 
+  listereservation!: Reservation[];
 
   ngOnInit(): void {
     this.loadTerrains();
+    this.resService.getReservations().subscribe(data => {this.listereservation = data;}
+     )
   }
 
   ngAfterViewInit(): void {
@@ -65,4 +75,63 @@ export class DataTableComponent {
   formTerrain() {
     this.router.navigate(['/terrainform']);
   }
+
+  idterrain!: number;
+  idutilisateur!: number;
+  terrain!: Terrain;
+  utilisateur!: Utilisateur;
+  reservationid!: ReservationId;
+  reservation!: Reservation;
+
+  
+
+  submitForm(form: NgForm) {
+    if (form.value.idterrain != null && form.value.idutilisateur != null) {
+
+      this.terrainService.getOneTerrain(this.idterrain).subscribe(
+        terrainData => {
+          this.terrain = terrainData;
+          alert("Terrain récupéré : " + this.terrain.id);
+
+          this.utilisateurService.getOneUtilisateur(this.idutilisateur).subscribe(
+            utilisateurData => {
+              this.utilisateur = utilisateurData;
+              alert("Utilisateur récupéré : " + this.utilisateur.id);
+
+              this.reservationid = {
+                terrainId: this.terrain.id,
+                utilisateurId: this.utilisateur.id
+              };
+  
+              this.reservation = {
+                id: this.reservationid,
+                reservation: 1
+              };
+              console.log("objet envoyé : ", this.reservation);
+
+              this.resService.postReservation(this.reservation).subscribe(
+                response => {
+                  console.log('Réservation réussie :', response);
+                  alert("Réservation créée !");
+                },
+                error => {
+                  console.error('Erreur lors de la réservation :', error);
+                  alert("Erreur lors de la création de la réservation : " + error.status);
+                }
+              );
+            },
+            err => {
+              console.error('Erreur lors de la récupération de l\'utilisateur :', err);
+              alert("Erreur utilisateur : " + err.status);
+            }
+          );
+        },
+        err => {
+          console.error('Erreur lors de la récupération du terrain :', err);
+          alert("Erreur terrain : " + err.status);
+        }
+      );
+    }
+  }
+  
 }

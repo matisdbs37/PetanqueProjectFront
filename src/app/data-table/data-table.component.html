@@ -64,3 +64,17 @@
 <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
 <a (click)="formTerrain()">Créer un nouveau terrain</a>
+
+<form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
+  <label for="idterrain">
+    Terrain ID :
+    <input id="idterrain" type="string" name="idterrain" [(ngModel)]="idterrain" />
+  </label>
+  <label for="idutilisateur">
+    Utilisateur ID :
+    <input id="idutilisateur" type="string" name="idutilisateur" [(ngModel)]="idutilisateur" />
+  </label>
+  <button type="submit">Submit</button>
+</form>
+
+{{listereservation | json}}
