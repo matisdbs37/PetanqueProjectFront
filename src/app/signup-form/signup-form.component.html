@@ -1,0 +1,61 @@
+<div class="formulaire">
+    <p>FORMULAIRE SIGNUP</p>
+  
+    <!-- Message de succès -->
+    <div *ngIf="successMessage" class="success-message">
+      <p>{{ successMessage }}</p>
+    </div>
+  
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+  
+    <form #signupForm="ngForm" (ngSubmit)="submitForm(signupForm)" novalidate>
+      <label for="nom">
+        Nom :
+        <input id="nom" type="string" name="nom" [(ngModel)]="nom" required #nomModel="ngModel"/>
+        <div *ngIf="nomModel.touched">
+          <small *ngIf="nomModel.errors?.['required']">Le nom est requis.</small>
+        </div>
+      </label>
+
+      <label for="prenom">
+        Prenom :
+        <input id="prenom" type="string" name="prenom" [(ngModel)]="prenom" required #prenomModel="ngModel"/>
+        <div *ngIf="prenomModel.touched">
+          <small *ngIf="prenomModel.errors?.['required']">Le prénom est requis.</small>
+        </div>
+      </label>
+
+      <label for="mail">
+        Mail :
+        <input id="mail" type="email" name="mail" [(ngModel)]="mail" required #mailModel="ngModel" email />
+        <div *ngIf="mailModel.invalid && mailModel.touched">
+          <small *ngIf="mailModel.errors?.['required']">Le mail est requis.</small>
+          <small *ngIf="mailModel.errors?.['email']">Le mail n'est pas valide.</small>
+        </div>
+      </label>
+  
+      <label for="password">
+        Mot de passe :
+        <input id="password" type="password" name="password" [(ngModel)]="password" required #passwordModel="ngModel" minlength="6" />
+        <div *ngIf="passwordModel.invalid && passwordModel.touched">
+          <small *ngIf="passwordModel.errors?.['required']">Le mot de passe est requis.</small>
+          <small *ngIf="passwordModel.errors?.['minlength']">Le mot de passe doit faire au moins 6 caractères.</small>
+        </div>
+      </label>
+
+      <label for="username">
+        Nom d'utilisateur :
+        <input id="username" type="string" name="username" [(ngModel)]="username" required #usernameModel="ngModel"/>
+        <div *ngIf="usernameModel.touched">
+          <small *ngIf="usernameModel.errors?.['required']">Le nom d'utilisateur est requis.</small>
+        </div>
+      </label>
+  
+      <button type="submit" [disabled]="signupForm.invalid">Se connecter</button>
+    </form>
+  </div>
+  
+  <a (click)="login()">Revenir à la page de connexion</a>

@@ -37,8 +37,8 @@ export class AppComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         const url = this.router.url;
-        this.showHeaderLogin = url === '/';
-        this.showHeader = url !== '/';
+        this.showHeaderLogin = url === '/' || url === '/signupform';
+        this.showHeader = url !== '/' && url !== '/signupform';
       });
   }
   

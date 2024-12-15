@@ -41,4 +41,8 @@ export class LoginFormComponent {
       this.successMessage = null; 
     }
   }
+
+  signup() {
+    this.router.navigate(['signupform']);
+  }
 }

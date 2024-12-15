@@ -88,3 +88,13 @@ color: red;
 display: block;
 margin-top: 5px;
 }
+
+a {
+  margin: 0 10px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
