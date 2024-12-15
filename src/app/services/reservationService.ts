@@ -9,7 +9,7 @@ import { catchError, Observable } from "rxjs";
 })
 
 export class reservationService {
-    API_URL: string = "http://localhost:8080/api";
+    API_URL: string = "http://localhost:8080";
     API_ENTITY_NAME: string = "reservation";
 
     constructor(private readonly http: HttpClient) {}
@@ -52,6 +52,15 @@ export class reservationService {
 
     deleteReservation(idReservation: number): Observable<void> {
         return this.http.delete<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${idReservation}`).pipe(
+            catchError(error => {
+                console.error("Erreur lors de la suppression de la réservation.", error);
+                throw error;
+            })
+        )
+    }
+
+    getUserById(userId: number): Observable<void> {
+        return this.http.get<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${userId}`).pipe(
             catchError(error => {
                 console.error("Erreur lors de la suppression de la réservation.", error);
                 throw error;

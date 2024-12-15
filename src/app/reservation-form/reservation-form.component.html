@@ -1,0 +1,11 @@
+<!-- Formulaire de réservation -->
+<div class="formulaire">
+<p>FORMULAIRE DE RESERVATION POUR LE TERRAIN D'ID </p>
+<form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
+    <label for="idutilisateur">
+      Pour quel ID d'utilisateur voulez vous réserver ce terrain ? :
+      <input id="idutilisateur" type="string" name="idutilisateur" [(ngModel)]="idutilisateur" />
+    </label>
+    <button type="submit">Soumettre</button>
+  </form>
+  </div>

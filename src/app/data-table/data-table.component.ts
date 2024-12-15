@@ -5,13 +5,20 @@ import { terrainService } from '../services/terrainService';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { NavigationEnd, Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Terrain } from '../models/terrain';
+import { utilisateurService } from '../services/utilisateurService';
+import { Utilisateur } from '../models/utilisateur';
+import { ReservationId } from '../models/reservationId';
+import { Reservation } from '../models/reservation';
+import { reservationService } from '../services/reservationService';
 import { filter } from 'rxjs';
 
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule, FormsModule],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
@@ -37,17 +44,34 @@ export class DataTableComponent {
       },
     }); this.loadTerrains();
   }
+
+  terrain!: Terrain;
   onReserve(element:any) {
-    throw new Error('Method not implemented.');
+    this.terrainService.getOneTerrain(element.id).subscribe(
+      data => {
+        this.terrain = data;
+        if (this.terrain.quantite === 0) {
+          alert("Terrain rempli, impossible de réserver");
+        }
+        else {
+          this.router.navigate(['/reservationform'], {
+            queryParams: {
+              id: this.terrain.id
+            },
+          });
+        }
+      }
+    )
   }
 
-  displayedColumns: string[] = ['id', 'nom', 'quantite', 'description', 'pointGeo', 'edit', 'delete'];
+  displayedColumns: string[] = ['id', 'nom', 'quantite', 'description', 'pointGeo', 'edit', 'delete', 'reserve'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-  constructor(private terrainService: terrainService, private router: Router) {}
+  constructor(private terrainService: terrainService, private utilisateurService: utilisateurService, private resService: reservationService, private router: Router) {}
 
+  listereservation!: Reservation[];
 
   ngOnInit(): void {
     this.loadTerrains();
@@ -56,10 +80,6 @@ export class DataTableComponent {
     ).subscribe(() => {
       this.loadTerrains();
     });
-  }
-
-  ngOnChanges(): void {
-    this.loadTerrains();
   }
 
   ngAfterViewInit(): void {
