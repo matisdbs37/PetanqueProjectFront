@@ -58,4 +58,13 @@ export class reservationService {
             })
         )
     }
+
+    getUserById(userId: number): Observable<void> {
+        return this.http.get<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${userId}`).pipe(
+            catchError(error => {
+                console.error("Erreur lors de la suppression de la réservation.", error);
+                throw error;
+            })
+        )
+    }
 }
