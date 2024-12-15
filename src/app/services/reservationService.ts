@@ -50,8 +50,8 @@ export class reservationService {
         )
     }
 
-    deleteReservation(idReservation: number): Observable<void> {
-        return this.http.delete<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${idReservation}`).pipe(
+    deleteReservation(idutilisateur: number, idterrain: number): Observable<void> {
+        return this.http.delete<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${idutilisateur}/${idterrain}`).pipe(
             catchError(error => {
                 console.error("Erreur lors de la suppression de la réservation.", error);
                 throw error;

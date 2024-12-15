@@ -19,7 +19,7 @@ import { utilisateurService } from '../services/utilisateurService';
   styleUrls: ['./reservation.component.css']
 })
 export class ReservationComponent {
-  displayedColumns: string[] = ['username', 'terrainName', 'edit', 'delete'];
+  displayedColumns: string[] = ['username', 'terrainName', 'delete'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,14 +38,12 @@ export class ReservationComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  onEdit(reservation: any): void {
-    alert(`Modifier la réservation : Utilisateur "${reservation.username}", Terrain "${reservation.terrainName}"`);
-    // Logique pour naviguer vers un formulaire ou préremplir une modal pour modifier
-  }
   
-  onDelete(reservation: any): void {
-    if (confirm(`Voulez-vous vraiment supprimer la réservation pour l'utilisateur "${reservation.username}" sur le terrain "${reservation.terrainName}" ?`)) {
-      this.resService.deleteReservation(reservation.id).subscribe({
+  onDelete(element: any): void {
+    console.log('Element reçu :', element);
+    alert(element.id.utilisateurId);
+    if (confirm(`Voulez-vous vraiment supprimer la réservation pour l'utilisateur "${element.username}" sur le terrain "${element.terrainName}" ?`)) {
+      this.resService.deleteReservation(element.id.utilisateurId, element.id.terrainId).subscribe({
         next: () => {
           alert('Réservation supprimée avec succès');
           this.loadAllData(); // Recharge les données après suppression
