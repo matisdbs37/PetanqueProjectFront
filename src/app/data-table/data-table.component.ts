@@ -43,8 +43,24 @@ export class DataTableComponent {
       },
     });
   }
+
+  terrain!: Terrain;
   onReserve(element:any) {
-    throw new Error('Method not implemented.');
+    this.terrainService.getOneTerrain(element.id).subscribe(
+      data => {
+        this.terrain = data;
+        if (this.terrain.quantite === 0) {
+          alert("Terrain rempli, impossible de réserver");
+        }
+        else {
+          this.router.navigate(['/reservationform'], {
+            queryParams: {
+              id: this.terrain.id
+            },
+          });
+        }
+      }
+    )
   }
 
   displayedColumns: string[] = ['id', 'nom', 'quantite', 'description', 'pointGeo', 'edit', 'delete', 'reserve'];
@@ -75,68 +91,4 @@ export class DataTableComponent {
   formTerrain() {
     this.router.navigate(['/terrainform']);
   }
-
-  idterrain!: number;
-  idutilisateur!: number;
-  terrain!: Terrain;
-  utilisateur!: Utilisateur;
-  reservationid!: ReservationId;
-  reservation!: Reservation;
-
-  
-
-  submitForm(form: NgForm) {
-    if (form.value.idterrain != null && form.value.idutilisateur != null) {
-  
-      this.terrainService.getOneTerrain(this.idterrain).subscribe(
-        terrainData => {
-          this.terrain = terrainData;
-          alert("Terrain récupéré : " + this.terrain.id);
-  
-          if (this.terrain.quantite === 0) {
-            alert("Terrain rempli, impossible de réserver");
-          } else {
-            this.utilisateurService.getOneUtilisateur(this.idutilisateur).subscribe(
-              utilisateurData => {
-                this.utilisateur = utilisateurData;
-                alert("Utilisateur récupéré : " + this.utilisateur.id);
-  
-                this.reservationid = {
-                  terrainId: this.terrain.id,
-                  utilisateurId: this.utilisateur.id
-                };
-  
-                this.reservation = {
-                  id: this.reservationid,
-                  reservation: 1
-                };
-                console.log("Objet envoyé : ", this.reservation);
-  
-                this.resService.postReservation(this.reservation).subscribe(
-                  response => {
-                    console.log('Réservation réussie :', response);
-                    alert("Réservation créée !");
-                  },
-                  error => {
-                    console.error('Erreur lors de la réservation :', error);
-                    alert("Erreur lors de la création de la réservation : " + error.status);
-                  }
-                );
-              },
-              err => {
-                console.error('Erreur lors de la récupération de l\'utilisateur :', err);
-                alert("Erreur utilisateur : " + err.status);
-              }
-            );
-          }
-        },
-        err => {
-          console.error('Erreur lors de la récupération du terrain :', err);
-          alert("Erreur terrain : " + err.status);
-        }
-      );
-    }
-  }
-  
-  
 }
