@@ -24,4 +24,8 @@ export class HeaderComponent {
   afficherMap() {
     this.router.navigate(['/map']);
   }
+
+  reservations() {
+    this.router.navigate(['/reservations']);
+  }
 }
