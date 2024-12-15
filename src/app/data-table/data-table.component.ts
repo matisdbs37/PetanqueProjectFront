@@ -87,44 +87,48 @@ export class DataTableComponent {
 
   submitForm(form: NgForm) {
     if (form.value.idterrain != null && form.value.idutilisateur != null) {
-
+  
       this.terrainService.getOneTerrain(this.idterrain).subscribe(
         terrainData => {
           this.terrain = terrainData;
           alert("Terrain récupéré : " + this.terrain.id);
-
-          this.utilisateurService.getOneUtilisateur(this.idutilisateur).subscribe(
-            utilisateurData => {
-              this.utilisateur = utilisateurData;
-              alert("Utilisateur récupéré : " + this.utilisateur.id);
-
-              this.reservationid = {
-                terrainId: this.terrain.id,
-                utilisateurId: this.utilisateur.id
-              };
   
-              this.reservation = {
-                id: this.reservationid,
-                reservation: 1
-              };
-              console.log("objet envoyé : ", this.reservation);
-
-              this.resService.postReservation(this.reservation).subscribe(
-                response => {
-                  console.log('Réservation réussie :', response);
-                  alert("Réservation créée !");
-                },
-                error => {
-                  console.error('Erreur lors de la réservation :', error);
-                  alert("Erreur lors de la création de la réservation : " + error.status);
-                }
-              );
-            },
-            err => {
-              console.error('Erreur lors de la récupération de l\'utilisateur :', err);
-              alert("Erreur utilisateur : " + err.status);
-            }
-          );
+          if (this.terrain.quantite === 0) {
+            alert("Terrain rempli, impossible de réserver");
+          } else {
+            this.utilisateurService.getOneUtilisateur(this.idutilisateur).subscribe(
+              utilisateurData => {
+                this.utilisateur = utilisateurData;
+                alert("Utilisateur récupéré : " + this.utilisateur.id);
+  
+                this.reservationid = {
+                  terrainId: this.terrain.id,
+                  utilisateurId: this.utilisateur.id
+                };
+  
+                this.reservation = {
+                  id: this.reservationid,
+                  reservation: 1
+                };
+                console.log("Objet envoyé : ", this.reservation);
+  
+                this.resService.postReservation(this.reservation).subscribe(
+                  response => {
+                    console.log('Réservation réussie :', response);
+                    alert("Réservation créée !");
+                  },
+                  error => {
+                    console.error('Erreur lors de la réservation :', error);
+                    alert("Erreur lors de la création de la réservation : " + error.status);
+                  }
+                );
+              },
+              err => {
+                console.error('Erreur lors de la récupération de l\'utilisateur :', err);
+                alert("Erreur utilisateur : " + err.status);
+              }
+            );
+          }
         },
         err => {
           console.error('Erreur lors de la récupération du terrain :', err);
@@ -133,5 +137,6 @@ export class DataTableComponent {
       );
     }
   }
+  
   
 }
