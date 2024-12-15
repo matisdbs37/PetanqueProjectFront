@@ -33,6 +33,11 @@ export class MarkerService {
               //split lat and long bc in the same string in the DB
               const [latitude, longitude] = terrain.pointGeo.split(',').map(coord => parseFloat(coord.trim()));
               const marker = this.leaflet.marker([latitude, longitude]);
+              marker.bindPopup(`
+                <b>${terrain.nom}</b><br>
+                <strong>Description:</strong> ${terrain.description}<br>
+                <strong>Quantite restante:</strong> ${terrain.quantite}<br>
+              `);
               marker.addTo(map)
             }
           });
