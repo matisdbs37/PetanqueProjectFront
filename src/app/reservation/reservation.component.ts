@@ -38,21 +38,48 @@ export class ReservationComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  
+  terrainsverif!: Terrain[];
+  utilisateursverif!: Utilisateur[];
+  terraintodelete!: Terrain;
+  utilisateurtodelete!: Utilisateur;
+
   onDelete(element: any): void {
-    console.log('Element reçu :', element);
-    alert(element.id.utilisateurId);
+    alert(element.username + element.terrainName);
     if (confirm(`Voulez-vous vraiment supprimer la réservation pour l'utilisateur "${element.username}" sur le terrain "${element.terrainName}" ?`)) {
-      this.resService.deleteReservation(element.id.utilisateurId, element.id.terrainId).subscribe({
-        next: () => {
-          alert('Réservation supprimée avec succès');
-          this.loadAllData(); // Recharge les données après suppression
-        },
-        error: (err) => {
-          console.error('Erreur lors de la suppression de la réservation :', err);
-          alert('Erreur lors de la suppression');
+      this.utilisateurService.getUtilisateurs().subscribe(
+        data => {
+          this.utilisateursverif = data;
+          for (let i = 0; i < this.utilisateursverif.length; i++) {
+            if (this.utilisateursverif[i].username == element.username) {
+              this.utilisateurtodelete = this.utilisateursverif[i];
+            }
+          }
+
+          this.terrainService.getTerrains().subscribe(
+            data => {
+              this.terrainsverif = data;
+              for (let j = 0; j < this.terrainsverif.length; j++) {
+                if (this.terrainsverif[j].nom == element.terrainName) {
+                  this.terraintodelete = this.terrainsverif[j];
+                }
+              }
+
+              this.resService.deleteReservation(this.utilisateurtodelete.id, this.terraintodelete.id).subscribe(
+                {
+                  next: () => {
+                    alert('Réservation supprimée avec succès');
+                    this.loadAllData(); // Recharge les données après suppression
+                  },
+                  error: (err) => {
+                    console.error('Erreur lors de la suppression de la réservation :', err);
+                    alert('Erreur lors de la suppression');
+                  }
+                }
+              )
+            }
+          )
         }
-      });
+      );
     }
   }
   

@@ -20,6 +20,8 @@ export class TerrainFormComponent {
 
   newTerrain: Terrain = {} as Terrain;
 
+  terrainsverif!: Terrain[];
+
   constructor(private terrainService: terrainService, private router: Router) {}
 
   private isValidPointGeo(pointGeo: string): boolean {
@@ -33,16 +35,38 @@ export class TerrainFormComponent {
         alert("Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT");
         return;
       }
-      alert(`Terrain ajouté !`);
-      this.newTerrain.nom = form.value.nom;
-      this.newTerrain.quantite = form.value.quantite;
-      this.newTerrain.description = form.value.description;
-      this.newTerrain.pointGeo = form.value.pointGeo;
+      else {
+        this.terrainService.getTerrains().subscribe(
+          data => {
+            let verif: boolean = true;
+            this.terrainsverif = data;
+            for (let i = 0; i < this.terrainsverif.length; i++) {
+              if (form.value.nom == this.terrainsverif[i].nom) {
+                verif = false;
+                alert("nom deja existant");
+                //this.errorMessage = "Le mail et le nom d'utilisateur sont déjà pris !";
+                //this.successMessage = null;
+              }
+            }
   
-      this.terrainService.postTerrain(this.newTerrain).subscribe(
-        reponse => {console.log('Server response:', reponse);}
-      )
-      this.router.navigate(['/datatable'])
+            if (verif == true) {
+                this.newTerrain.nom = form.value.nom;
+                this.newTerrain.quantite = form.value.quantite;
+                this.newTerrain.description = form.value.description;
+                this.newTerrain.pointGeo = form.value.pointGeo;
+                this.terrainService.postTerrain(this.newTerrain).subscribe(
+                  response => {
+                    alert("Terrain ajouté");
+                      //this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
+                      //this.errorMessage = null;
+                  },
+                  
+                );
+                this.router.navigate(['/datatable']);
+            }
+          }
+        )
+      }
     }
     else alert("Veuillez remplir tous les champs !")
    

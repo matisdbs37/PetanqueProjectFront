@@ -21,6 +21,8 @@ export class TerrainUpdateFormComponent implements OnInit {
 
   updatedTerrain: Terrain = {} as Terrain;
 
+  terrainsverif!: Terrain[];
+
   constructor(private terrainService: terrainService, private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
     // Récupérer les paramètres depuis l'URL
@@ -44,15 +46,38 @@ export class TerrainUpdateFormComponent implements OnInit {
         alert("Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT");
         return;
       }
-      this.updatedTerrain.nom = form.value.nom;
-      this.updatedTerrain.quantite = form.value.quantite;
-      this.updatedTerrain.description = form.value.description;
-      this.updatedTerrain.pointGeo = form.value.pointGeo;
+      else {
+        this.terrainService.getTerrains().subscribe(
+          data => {
+            let verif: boolean = true;
+            this.terrainsverif = data;
+            for (let i = 0; i < this.terrainsverif.length; i++) {
+              if (form.value.nom == this.terrainsverif[i].nom) {
+                verif = false;
+                alert("nom deja existant");
+                //this.errorMessage = "Le mail et le nom d'utilisateur sont déjà pris !";
+                //this.successMessage = null;
+              }
+            }
   
-      this.terrainService.putTerrain(this.id, this.updatedTerrain).subscribe(
-        reponse => {alert('Terrain modifié avec succès');}
-      )
-      this.router.navigate(['/datatable'])
+            if (verif == true) {
+                this.updatedTerrain.nom = form.value.nom;
+                this.updatedTerrain.quantite = form.value.quantite;
+                this.updatedTerrain.description = form.value.description;
+                this.updatedTerrain.pointGeo = form.value.pointGeo;
+                this.terrainService.putTerrain(this.id, this.updatedTerrain).subscribe(
+                  response => {
+                    alert("Terrain ajouté");
+                      //this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
+                      //this.errorMessage = null;
+                  },
+                  
+                );
+                this.router.navigate(['/datatable']);
+            }
+          }
+        )
+      }
     }
     else alert("Veuillez remplir tous les champs !")
    

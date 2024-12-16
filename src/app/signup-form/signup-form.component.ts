@@ -22,6 +22,8 @@ export class SignupFormComponent {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
+  usersverif!: Utilisateur[];
+
   newUser: Utilisateur = {} as Utilisateur;
 
   constructor(private utilisateurService: utilisateurService, private router: Router) {}
@@ -32,18 +34,45 @@ export class SignupFormComponent {
 
   submitForm(form: NgForm) {
     if (form.valid) {
-      this.newUser.nom = form.value.nom;
-      this.newUser.prenom = form.value.prenom;
-      this.newUser.mail = form.value.mail;
-      this.newUser.password = form.value.password;
-      this.newUser.username = form.value.username;
-      this.utilisateurService.postUtilisateur(this.newUser).subscribe(
-        response => {
-            this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
-            this.errorMessage = null;
-        },
-        
-      );
+      this.utilisateurService.getUtilisateurs().subscribe(
+        data => {
+          let verif: boolean = true;
+          this.usersverif = data;
+          for (let i = 0; i < this.usersverif.length; i++) {
+            if (form.value.mail == this.usersverif[i].mail && form.value.username == this.usersverif[i].username) {
+              verif = false;
+              this.errorMessage = "Le mail et le nom d'utilisateur sont déjà pris !";
+              this.successMessage = null;
+            }
+            else if (form.value.mail == this.usersverif[i].mail) {
+              verif = false;
+              this.errorMessage = "Le mail est déjà pris !";
+              this.successMessage = null;
+            }
+            else if (form.value.username == this.usersverif[i].username) {
+              verif = false;
+              this.errorMessage = "Le nom d'utilisateur est déjà pris !";
+              this.successMessage = null;
+            }
+          }
+
+          if (verif == true) {
+            this.newUser.nom = form.value.nom;
+              this.newUser.prenom = form.value.prenom;
+              this.newUser.mail = form.value.mail;
+              this.newUser.password = form.value.password;
+              this.newUser.username = form.value.username;
+              this.utilisateurService.postUtilisateur(this.newUser).subscribe(
+                response => {
+                    this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
+                    this.errorMessage = null;
+                },
+                
+              );
+          }
+        }
+      )
+      
     } else {
       this.errorMessage = 'Veuillez remplir tous les champs correctement.';
       this.successMessage = null; 
