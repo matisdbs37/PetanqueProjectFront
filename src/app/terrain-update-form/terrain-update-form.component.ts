@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Terrain } from '../models/terrain';
 import { terrainService } from '../services/terrainService';
@@ -8,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-terrain-form',
   standalone: true,
-  imports: [FormsModule, JsonPipe],
+  imports: [CommonModule, FormsModule, JsonPipe],
   templateUrl: './terrain-update-form.component.html',
   styleUrl: './terrain-update-form.component.css'
 })
@@ -23,9 +24,11 @@ export class TerrainUpdateFormComponent implements OnInit {
 
   terrainsverif!: Terrain[];
 
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+
   constructor(private terrainService: terrainService, private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
-    // Récupérer les paramètres depuis l'URL
     this.route.queryParams.subscribe((params) => {
       this.id = +params['id'];
       this.nom = params['nom'] || '';
@@ -43,7 +46,8 @@ export class TerrainUpdateFormComponent implements OnInit {
   submitForm(form: NgForm) {
     if (form.value.nom != null && form.value.quantite != null && form.value.description != null && form.value.pointGeo != null) {
       if (!this.isValidPointGeo(form.value.pointGeo)) {
-        alert("Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT");
+        this.errorMessage = "Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT";
+        this.successMessage = null;
         return;
       }
       else {
@@ -54,9 +58,8 @@ export class TerrainUpdateFormComponent implements OnInit {
             for (let i = 0; i < this.terrainsverif.length; i++) {
               if (form.value.nom == this.terrainsverif[i].nom) {
                 verif = false;
-                alert("nom deja existant");
-                //this.errorMessage = "Le mail et le nom d'utilisateur sont déjà pris !";
-                //this.successMessage = null;
+                this.errorMessage = "Nom de terrain déjà existant !";
+                this.successMessage = null;
               }
             }
   
@@ -67,13 +70,14 @@ export class TerrainUpdateFormComponent implements OnInit {
                 this.updatedTerrain.pointGeo = form.value.pointGeo;
                 this.terrainService.putTerrain(this.id, this.updatedTerrain).subscribe(
                   response => {
-                    alert("Terrain ajouté");
-                      //this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
-                      //this.errorMessage = null;
+                    this.successMessage = 'Terrain modifié ! Redirection vers la liste des terrains...';
+                    this.errorMessage = null;
                   },
                   
                 );
-                this.router.navigate(['/datatable']);
+                setTimeout(() => {
+                  this.router.navigate(['/datatable']);
+                }, 2000);
             }
           }
         )

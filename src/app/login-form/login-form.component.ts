@@ -25,10 +25,11 @@ export class LoginFormComponent {
       this.loginService.login(this.mail, this.motDePasse).subscribe({
         next: (response) => {
           if (response.status === 200) {
-            alert("Connexion réussie, bienvenue !")
-            this.successMessage = 'Connexion réussie !';
+            this.successMessage = 'Connexion réussie, bienvenue ! Nous vous amenons sur le site...';
             this.errorMessage = null;
-            this.router.navigate(['/datatable']);
+            setTimeout(() => {
+              this.router.navigate(['/datatable']);
+            }, 2000);
           }
         },
         error: (error: Error) => {

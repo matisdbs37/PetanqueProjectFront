@@ -23,7 +23,6 @@ body {
     margin-bottom: 30px;
   }
   
-  /* Style des labels */
   label {
     display: block;
     font-size: 14px;
@@ -31,9 +30,8 @@ body {
     margin-bottom: 8px;
   }
   
-  /* Style des champs de saisie */
   input {
-    width: 100%;
+    width: 94%;
     padding: 12px 15px;
     font-size: 16px;
     color: #333;
@@ -50,7 +48,6 @@ body {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
   }
   
-  /* Style du bouton submit */
   button {
     background-color: #4CAF50;
     color: white;
@@ -81,20 +78,24 @@ body {
     color: red;
     font-size: medium;
   }
-  
-  /* Messages d'erreur pour les champs du formulaire */
+
   small {
   color: red;
   display: block;
   margin-top: 5px;
   }
 
-a {
-    margin: 0 10px;
-    color: #333;
+  a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #45a049;
     text-decoration: none;
     cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
+  }
+  
+  a:hover {
+    text-decoration: underline;
+    color: #387a3f;
   }

@@ -1,11 +1,22 @@
-<!-- Formulaire de réservation -->
 <div class="formulaire">
-<p>FORMULAIRE DE RESERVATION POUR LE TERRAIN D'ID </p>
-<form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
+<p>FORMULAIRE DE RESERVATION POUR LE TERRAIN SUIVANT : {{this.nomterrain}}</p>
+
+<div *ngIf="successMessage" class="success-message">
+  <p>{{ successMessage }}</p>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<form #reservationForm="ngForm" (ngSubmit)="submitForm(reservationForm)">
     <label for="idutilisateur">
-      Pour quel ID d'utilisateur voulez vous réserver ce terrain ? :
-      <input id="idutilisateur" type="string" name="idutilisateur" [(ngModel)]="idutilisateur" />
+      Pour quel nom d'utilisateur voulez vous réserver ce terrain ? :
+      <input id="username" type="string" name="username" [(ngModel)]="username" required #usernameModel="ngModel" />
+      <div *ngIf="usernameModel.touched">
+        <small *ngIf="usernameModel.errors?.['required']">Le nom d'utilisateur est requis.</small>
+      </div>
     </label>
-    <button type="submit">Soumettre</button>
+    <button type="submit" [disabled]="reservationForm.invalid">Soumettre</button>
   </form>
   </div>

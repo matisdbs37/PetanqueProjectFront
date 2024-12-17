@@ -1,22 +1,43 @@
 <div class="formulaire">
 <p>FORMULAIRE AJOUT TERRAIN</p>
+
+<!-- Message de succès -->
+<div *ngIf="successMessage" class="success-message">
+  <p>{{ successMessage }}</p>
+</div>
+
+<!-- Message d'erreur -->
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
 <form #terrainForm="ngForm" (ngSubmit)="submitForm(terrainForm)">
   <label for="nom">
     Nom :
-    <input id="nom" type="string" name="nom" [(ngModel)]="nom" />
+    <input id="nom" type="string" name="nom" [(ngModel)]="nom" required #nomModel="ngModel"/>
+    <div *ngIf="nomModel.touched">
+      <small *ngIf="nomModel.errors?.['required']">Le nom du terrain est requis.</small>
+    </div>
   </label>
   <label for="quantite">
     Quantite :
-    <input id="quantite" type="number" name="quantite" [(ngModel)]="quantite" />
+    <input id="quantite" type="number" name="quantite" [(ngModel)]="quantite" required #quantiteModel="ngModel"/>
+    <div *ngIf="quantiteModel.touched">
+      <small *ngIf="quantiteModel.errors?.['required']">La quantité du terrain est requise.</small>
+    </div>
   </label>
   <label for="description">
     Description :
-    <input id="description" type="string" name="description" [(ngModel)]="description" />
+    <input id="description" type="string" name="description" [(ngModel)]="description"/>
+
   </label>
   <label for="pointGeo">
     Point geo :
-    <input id="pointGeo" type="string" name="pointGeo" [(ngModel)]="pointGeo" />
+    <input id="pointGeo" type="string" name="pointGeo" [(ngModel)]="pointGeo" required #pointGeoModel="ngModel"/>
+    <div *ngIf="pointGeoModel.touched">
+      <small *ngIf="pointGeoModel.errors?.['required']">Le point géographique du terrain est requis.</small>
+    </div>
   </label>
-  <button type="submit">Submit</button>
+  <button type="submit" [disabled]="terrainForm.invalid">Submit</button>
 </form>
 </div>

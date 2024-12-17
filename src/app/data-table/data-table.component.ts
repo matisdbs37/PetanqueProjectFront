@@ -8,8 +8,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Terrain } from '../models/terrain';
 import { utilisateurService } from '../services/utilisateurService';
-import { Utilisateur } from '../models/utilisateur';
-import { ReservationId } from '../models/reservationId';
 import { Reservation } from '../models/reservation';
 import { reservationService } from '../services/reservationService';
 import { filter } from 'rxjs';
@@ -27,7 +25,7 @@ export class DataTableComponent {
     if (confirm('Voulez-vous vraiment supprimer ce terrain ?')) {
       this.terrainService.deleteTerrain(element.id).subscribe({
         next: () => {
-          alert('Terrain supprimé avec succès'); this.loadTerrains();
+          this.loadTerrains();
         },
         
       });
@@ -56,7 +54,8 @@ export class DataTableComponent {
         else {
           this.router.navigate(['/reservationform'], {
             queryParams: {
-              id: this.terrain.id
+              id: this.terrain.id,
+              nom: this.terrain.nom
             },
           });
         }

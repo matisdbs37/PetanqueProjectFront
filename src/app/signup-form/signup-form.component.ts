@@ -64,8 +64,11 @@ export class SignupFormComponent {
               this.newUser.username = form.value.username;
               this.utilisateurService.postUtilisateur(this.newUser).subscribe(
                 response => {
-                    this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
+                    this.successMessage = 'Inscription réussie ! Nous vous redirigons vers la page de connexion...';
                     this.errorMessage = null;
+                    setTimeout(() => {
+                      this.router.navigate(['/']);
+                    }, 2000);
                 },
                 
               );

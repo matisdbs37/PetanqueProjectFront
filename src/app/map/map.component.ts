@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-//import * as L from 'leaflet';
 import {MarkerService} from "./marker.service"
 import {CommonModule} from "@angular/common";
 
@@ -12,7 +11,6 @@ import {CommonModule} from "@angular/common";
 })
 
 export class MapComponent implements AfterViewInit, OnInit {
-  //specify the map type from leaflet
   private map !: L.Map;
 
   private async initMap(): Promise<void> {
@@ -32,8 +30,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.initIcons(L)
   }
 
-
-  // Cette méthode initialise les icônes
   private initIcons(L: any): void {
     const iconRetinaUrl = '../../assets/marker-icon-2x.png';
     const iconUrl = '../../assets/marker-icon.png';
@@ -57,8 +53,8 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   async ngAfterViewInit(): Promise<void> {
     await this.initMap();
-    await this.markerService.initLeaflet(); // Charge Leaflet dans le service
-    await this.markerService.makeMarkers(this.map); // Ajoute les marqueurs
+    await this.markerService.initLeaflet();
+    await this.markerService.makeMarkers(this.map);
   }
 
   async ngOnInit(): Promise<void> {}

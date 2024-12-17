@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Terrain } from '../models/terrain';
 import { terrainService } from '../services/terrainService';
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-terrain-form',
   standalone: true,
-  imports: [FormsModule, JsonPipe],
+  imports: [CommonModule, FormsModule, JsonPipe],
   templateUrl: './terrain-form.component.html',
   styleUrl: './terrain-form.component.css'
 })
@@ -22,6 +23,9 @@ export class TerrainFormComponent {
 
   terrainsverif!: Terrain[];
 
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+
   constructor(private terrainService: terrainService, private router: Router) {}
 
   private isValidPointGeo(pointGeo: string): boolean {
@@ -32,7 +36,8 @@ export class TerrainFormComponent {
   submitForm(form: NgForm) {
     if (form.value.nom != null && form.value.quantite != null && form.value.description != null && form.value.pointGeo != null) {
       if (!this.isValidPointGeo(form.value.pointGeo)) {
-        alert("Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT");
+        this.errorMessage = "Veuillez entrer un point géographique valide au format XX.YY, ZZ.TT";
+        this.successMessage = null;
         return;
       }
       else {
@@ -43,9 +48,8 @@ export class TerrainFormComponent {
             for (let i = 0; i < this.terrainsverif.length; i++) {
               if (form.value.nom == this.terrainsverif[i].nom) {
                 verif = false;
-                alert("nom deja existant");
-                //this.errorMessage = "Le mail et le nom d'utilisateur sont déjà pris !";
-                //this.successMessage = null;
+                this.errorMessage = "Nom de terrain déjà existant !";
+                this.successMessage = null;
               }
             }
   
@@ -56,13 +60,14 @@ export class TerrainFormComponent {
                 this.newTerrain.pointGeo = form.value.pointGeo;
                 this.terrainService.postTerrain(this.newTerrain).subscribe(
                   response => {
-                    alert("Terrain ajouté");
-                      //this.successMessage = 'Inscription réussie ! Retournez sur la page de connexion et connectez vous !';
-                      //this.errorMessage = null;
+                      this.successMessage = 'Terrain ajouté ! Redirection vers la liste des terrains...';
+                      this.errorMessage = null;
                   },
                   
                 );
-                this.router.navigate(['/datatable']);
+                setTimeout(() => {
+                  this.router.navigate(['/datatable']);
+                }, 2000);
             }
           }
         )

@@ -2,24 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
-import { Terrain } from './models/terrain';
-import { terrainService } from './services/terrainService';
-import { JsonPipe } from '@angular/common';
-import { TerrainFormComponent } from "./terrain-form/terrain-form.component";
-import { TerrainComponent } from "./terrain/terrain.component";
-import { DataTableComponent } from './data-table/data-table.component';
-import { LoginFormComponent } from "./login-form/login-form.component"
 import { HeaderComponent } from './header/header.component';
 import { filter } from 'rxjs';
 import { HeaderLoginComponent } from './header-login/header-login.component';
-import {MapComponent} from "./map/map.component";
-import {MarkerService} from "./map/marker.service";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DataTableComponent, TerrainFormComponent, LoginFormComponent, HeaderComponent, RouterOutlet, HeaderLoginComponent, CommonModule, NgIf, JsonPipe, MapComponent],
+  imports: [HeaderComponent, RouterOutlet, HeaderLoginComponent, CommonModule, NgIf],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

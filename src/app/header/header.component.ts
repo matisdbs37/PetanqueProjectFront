@@ -10,11 +10,12 @@ import { RouterLinkActive } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  message: string | null = null;
+
   constructor(private router: Router) {}
 
   logout() {
-    alert("Déconnexion réussie !");
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
 
   afficherList() {

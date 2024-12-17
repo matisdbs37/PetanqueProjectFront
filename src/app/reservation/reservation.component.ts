@@ -44,7 +44,6 @@ export class ReservationComponent {
   utilisateurtodelete!: Utilisateur;
 
   onDelete(element: any): void {
-    alert(element.username + element.terrainName);
     if (confirm(`Voulez-vous vraiment supprimer la réservation pour l'utilisateur "${element.username}" sur le terrain "${element.terrainName}" ?`)) {
       this.utilisateurService.getUtilisateurs().subscribe(
         data => {
@@ -67,8 +66,7 @@ export class ReservationComponent {
               this.resService.deleteReservation(this.utilisateurtodelete.id, this.terraintodelete.id).subscribe(
                 {
                   next: () => {
-                    alert('Réservation supprimée avec succès');
-                    this.loadAllData(); // Recharge les données après suppression
+                    this.loadAllData();
                   },
                   error: (err) => {
                     console.error('Erreur lors de la suppression de la réservation :', err);
@@ -84,13 +82,11 @@ export class ReservationComponent {
   }
   
   loadAllData(): void {
-    // Utilisation de forkJoin pour synchroniser les appels
     forkJoin({
       reservations: this.resService.getReservations(),
       terrains: this.terrainService.getTerrains(),
       utilisateurs: this.utilisateurService.getUtilisateurs()
     }).subscribe(({ reservations, terrains, utilisateurs }) => {
-      // Toutes les données sont disponibles ici
       this.enrichReservations(reservations, terrains, utilisateurs);
     });
   }

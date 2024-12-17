@@ -1,6 +1,17 @@
+* {
+  font-family: Arial, sans-serif;
+}
+
 header {
-    text-align: center;
-    background-color: #EEE;
-    margin-bottom: 20px;
-    padding: 10px;
-  }
+  background-color: #45a049;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 4px solid #388e3c;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
