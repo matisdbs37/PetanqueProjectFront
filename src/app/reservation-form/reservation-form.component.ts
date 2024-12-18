@@ -72,7 +72,7 @@ export class ReservationFormComponent {
             },
             error => {
               console.error('Erreur lors de la réservation :', error);
-              this.errorMessage = "Une erreur est survenue lors de la réservation.";
+              this.errorMessage = "Vous avez déjà réservé ce terrain, ou le nombre de terrain que vous voulez réserver dépasse la capacité actuel du terrain.";
               this.successMessage = null;
             }
           );
