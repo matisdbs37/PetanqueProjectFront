@@ -3,13 +3,14 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { forkJoin } from 'rxjs'; // Import RxJS
+import { filter, forkJoin } from 'rxjs';
 import { Reservation } from '../models/reservation';
 import { Terrain } from '../models/terrain';
 import { Utilisateur } from '../models/utilisateur';
 import { reservationService } from '../services/reservationService';
 import { terrainService } from '../services/terrainService';
 import { utilisateurService } from '../services/utilisateurService';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation',
@@ -27,11 +28,17 @@ export class ReservationComponent {
   constructor(
     private resService: reservationService,
     private terrainService: terrainService,
-    private utilisateurService: utilisateurService
+    private utilisateurService: utilisateurService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadAllData();
+    this.router.events.pipe(
+          filter(event => event instanceof NavigationEnd)
+        ).subscribe(() => {
+          this.loadAllData();
+        });
   }
 
   ngAfterViewInit(): void {
@@ -82,12 +89,16 @@ export class ReservationComponent {
   }
   
   loadAllData(): void {
+    console.log("ici");
     forkJoin({
       reservations: this.resService.getReservations(),
       terrains: this.terrainService.getTerrains(),
       utilisateurs: this.utilisateurService.getUtilisateurs()
     }).subscribe(({ reservations, terrains, utilisateurs }) => {
-      this.enrichReservations(reservations, terrains, utilisateurs);
+      const userReservations = reservations.filter(
+        reservation => reservation.id.utilisateurId === this.utilisateurService.getUserId()
+      );
+      this.enrichReservations(userReservations, terrains, utilisateurs);
     });
   }
 
