@@ -29,8 +29,9 @@ export class LoginFormComponent {
             this.successMessage = 'Connexion réussie, bienvenue ! Nous vous amenons sur le site...';
             this.errorMessage = null;
             if (response.body) {
-              this.utilisateurService.setUserId(response.body.utilisateurId);
+              this.utilisateurService.setUserId(response.body);
             }
+
             setTimeout(() => {
               this.router.navigate(['/datatable']);
             }, 2000);

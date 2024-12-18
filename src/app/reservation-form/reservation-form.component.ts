@@ -44,7 +44,6 @@ export class ReservationFormComponent {
 
   submitForm(form: NgForm) {
     if (form.value.nombreReservations != null && form.value.nombreReservations >= 1) {
-      // Vérification si le nombre de réservations est valide
 
       this.terrainService.getOneTerrain(this.idterrain).subscribe(
         terrainData => {
@@ -53,7 +52,7 @@ export class ReservationFormComponent {
           // Crée l'objet reservationId
           this.reservationid = {
             terrainId: this.terrain.id,
-            utilisateurId: this.utilisateurService.getUserId() // L'id utilisateur pourrait être récupéré autrement
+            utilisateurId: this.utilisateurService.getUserId()
           };
 
           // Création de la réservation
@@ -61,8 +60,6 @@ export class ReservationFormComponent {
             id: this.reservationid,
             reservation: this.nombreReservations // Utilisation du nombre de réservations
           };
-
-          alert("Réservation : " + JSON.stringify(this.reservation));
 
           // Soumission de la réservation
           this.resService.postReservation(this.reservation).subscribe(

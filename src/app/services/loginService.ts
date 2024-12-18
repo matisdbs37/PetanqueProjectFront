@@ -19,11 +19,11 @@ export class loginService {
 
     constructor(private readonly http: HttpClient) {}
 
-    login(mail: string, password: string): Observable<HttpResponse<void>> {
-        return this.http.get<void>(`${this.API_URL}/${this.API_ENTITY_NAME}/${mail}/${password}`, { observe: 'response' }).pipe(
+    login(mail: string, password: string): Observable<HttpResponse<number>> {
+        return this.http.get<number>(`${this.API_URL}/${this.API_ENTITY_NAME}/${mail}/${password}`, { observe: 'response' }).pipe(
             catchError((error: HttpErrorResponse) => {
                 let errorMessage = "";
-                
+
                 if (error.status === 404) {
                     errorMessage = "Mot de passe ou mail incorrect";
                 } else {
