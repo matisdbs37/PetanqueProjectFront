@@ -1,22 +1,26 @@
 <div class="formulaire">
-<p>FORMULAIRE DE RESERVATION POUR LE TERRAIN SUIVANT : {{this.nomterrain}}</p>
+  <p>FORMULAIRE DE RESERVATION POUR LE TERRAIN SUIVANT : {{this.nomterrain}}</p>
 
-<div *ngIf="successMessage" class="success-message">
-  <p>{{ successMessage }}</p>
-</div>
+  <div *ngIf="successMessage" class="success-message">
+    <p>{{ successMessage }}</p>
+  </div>
 
-<div *ngIf="errorMessage" class="error-message">
-  <p>{{ errorMessage }}</p>
-</div>
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
 
-<form #reservationForm="ngForm" (ngSubmit)="submitForm(reservationForm)">
-    <label for="idutilisateur">
-      Pour quel nom d'utilisateur voulez vous réserver ce terrain ? :
-      <input id="username" type="string" name="username" [(ngModel)]="username" required #usernameModel="ngModel" />
-      <div *ngIf="usernameModel.touched">
-        <small *ngIf="usernameModel.errors?.['required']">Le nom d'utilisateur est requis.</small>
+  <form #reservationForm="ngForm" (ngSubmit)="submitForm(reservationForm)">
+
+    <!-- Champ pour le nombre de réservations -->
+    <label for="nombreReservations">
+      Combien de réservations souhaitez-vous faire ? :
+      <input id="nombreReservations" type="number" name="nombreReservations" [(ngModel)]="nombreReservations" required min="1" #nombreReservationsModel="ngModel" />
+      <div *ngIf="nombreReservationsModel.touched">
+        <small *ngIf="nombreReservationsModel.errors?.['required']">Le nombre de réservations est requis.</small>
+        <small *ngIf="nombreReservationsModel.errors?.['min']">Le nombre de réservations doit être au moins 1.</small>
       </div>
     </label>
+
     <button type="submit" [disabled]="reservationForm.invalid">Soumettre</button>
   </form>
-  </div>
+</div>

@@ -12,6 +12,8 @@ export class utilisateurService {
     API_URL: string = "http://localhost:8080";
     API_ENTITY_NAME: string = "utilisateur";
 
+    private userId: number = 0;
+
     constructor(private readonly http: HttpClient) {}
 
     getUtilisateurs(): Observable<Utilisateur[]> {
@@ -57,5 +59,13 @@ export class utilisateurService {
                 throw error;
             })
         )
+    }
+
+    setUserId(id: number): void {
+      this.userId = id;
+    }
+
+    getUserId(): number {
+      return this.userId;
     }
 }

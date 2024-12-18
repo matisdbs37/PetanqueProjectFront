@@ -4,6 +4,7 @@ import { loginService } from '../services/loginService';
 import { JsonPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { utilisateurService } from '../services/utilisateurService';
 
 @Component({
   selector: 'app-login-form',
@@ -18,7 +19,7 @@ export class LoginFormComponent {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private loginService: loginService, private router: Router) {}
+  constructor(private loginService: loginService, private router: Router, private utilisateurService: utilisateurService) {}
 
   submitForm(form: NgForm) {
     if (form.valid) {
@@ -27,6 +28,9 @@ export class LoginFormComponent {
           if (response.status === 200) {
             this.successMessage = 'Connexion réussie, bienvenue ! Nous vous amenons sur le site...';
             this.errorMessage = null;
+            if (response.body) {
+              this.utilisateurService.setUserId(response.body.utilisateurId);
+            }
             setTimeout(() => {
               this.router.navigate(['/datatable']);
             }, 2000);
@@ -39,7 +43,7 @@ export class LoginFormComponent {
       });
     } else {
       this.errorMessage = 'Veuillez remplir tous les champs correctement.';
-      this.successMessage = null; 
+      this.successMessage = null;
     }
   }
 
